@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/bignumbers-io/terraform-provider-signalwire/provider"
-	"github.com/hashicorp/terraform/plugin"
+	"github.com/kitt-technology/terraform-provider-signalwire/provider"
+	"github.com/hashicorp/terraform-plugin-sdk/plugin"
 )
 
 func main() {
