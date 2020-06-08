@@ -10,9 +10,6 @@ func resourceSignalwireSipEndpoint() *schema.Resource {
 		Read:   resourceSignalwireSipEndpointRead,
 		Update: resourceSignalwireSipEndpointUpdate,
 		Delete: resourceSignalwireSipEndpointDelete,
-		Importer: &schema.ResourceImporter{
-			State: resourceSignalwireSipEndpointImport,
-		},
 		Schema: map[string]*schema.Schema{
 			"space": {
 				Type:        schema.TypeString,
@@ -34,6 +31,8 @@ func resourceSignalwireSipEndpoint() *schema.Resource {
 				Optional:    true,
 				Description: "Friendly Caller ID used as the CNAM when dialing a phone number or the From when dialing another SIP Endpoint.",
 			},
+			// Signalwire API would not accept any value here, despite following documentation.
+			//
 			//"send_as": {
 			//	Type:        schema.TypeString,
 			//	Optional:    true,

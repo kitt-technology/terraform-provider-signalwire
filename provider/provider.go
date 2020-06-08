@@ -17,7 +17,7 @@ func Provider() terraform.ResourceProvider {
 			"auth_token": {
 				Type:        schema.TypeString,
 				Required:    true,
-				DefaultFunc: schema.EnvDefaultFunc("SIGNALWIRE_AUTH_TOKEN", "https://kitt.signalwire.com/credentials/new"),
+				DefaultFunc: schema.EnvDefaultFunc("SIGNALWIRE_AUTH_TOKEN", nil),
 				Description: "The API token used to connect to Signalwire",
 			},
 		},
