@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/kitt-technology/terraform-provider-signalwire/provider"
+	"github.com/kitt-technology/terraform-provider-signalwire/internal/provider"
 	"github.com/hashicorp/terraform-plugin-sdk/plugin"
 )
 
