@@ -55,11 +55,7 @@ func (c *Client) Req(method, space, uri string, payload map[string]interface{}) 
 	var jsonResp map[string]interface{}
 
 	if len(body) > 0 {
-
-		err = json.Unmarshal(body, &jsonResp)
-		if err != nil {
-			panic(string(body))
-		}
+		json.Unmarshal(body, &jsonResp)
 	}
 
 	return jsonResp, err
