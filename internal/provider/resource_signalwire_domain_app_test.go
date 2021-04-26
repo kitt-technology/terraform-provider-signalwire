@@ -3,6 +3,7 @@ package provider
 import (
 	"errors"
 	"fmt"
+	"math/rand"
 	"os"
 	"testing"
 
@@ -17,7 +18,7 @@ func TestAccSignalwireDomainApp_basic(t *testing.T) {
 		CheckDestroy: testAccCheckSignalwireDomainAppDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccSignalwireDomainAppConfig,
+				Config: testAccSignalwireDomainAppConfig(),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckSignalwireDomainAppExists("signalwire_domain_app.test_app"),
 				),
@@ -76,22 +77,35 @@ func testAccCheckSignalwireDomainAppExists(n string) resource.TestCheckFunc {
 	}
 }
 
-var testAccSignalwireDomainAppConfig = fmt.Sprintf(`
-	resource "signalwire_domain_app" "test_app" {
-        space = "%[1]s"
-        name = "Test App"
-        identifier = "test_id"
-        ip_auth_enabled = true
-	    ip_auth = ["8.8.8.8", "4.4.4.4"]
-        encryption = "required"
-        call_handler = "relay_context"
-        call_relay_context = "incoming"
-        ciphers = [
-			"AEAD_AES_256_GCM_8",
-		]
-  		codecs = [
-			"PCMU",
-			"PCMA",
-  		]
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func RandStringRunes(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRunes[rand.Intn(len(letterRunes))]
 	}
-`, testSignalwireSpace)
+	return string(b)
+}
+
+func testAccSignalwireDomainAppConfig() string {
+	name := RandStringRunes(10)
+	return fmt.Sprintf(`
+		resource "signalwire_domain_app" "test_app" {
+			space = "%[1]s"
+			name = "%s"
+			identifier = "%s"
+			ip_auth_enabled = true
+			ip_auth = ["8.8.8.8", "4.4.4.4"]
+			encryption = "required"
+			call_handler = "relay_context"
+			call_relay_context = "incoming"
+			ciphers = [
+				"AEAD_AES_256_GCM_8",
+			]
+			codecs = [
+				"PCMU",
+				"PCMA",
+			]
+		}
+	`, testSignalwireSpace, name, name)
+}
