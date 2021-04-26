@@ -24,6 +24,7 @@ func Provider() terraform.ResourceProvider {
 
 		ResourcesMap: map[string]*schema.Resource{
 			"signalwire_sip_endpoint": resourceSignalwireSipEndpoint(),
+			"signalwire_domain_app": resourceSignalwireDomainApp(),
 		},
 		ConfigureFunc: providerConfigure,
 	}
