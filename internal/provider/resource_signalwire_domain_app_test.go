@@ -15,7 +15,7 @@ func TestAccSignalwireDomainApp_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
 		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckSignalwireDomainAppDestroy,
+		CheckDestroy: testAccCheckSignalwireDomainAppDestroy("signalwire_domain_app.test_app"),
 		Steps: []resource.TestStep{
 			{
 				Config: testAccSignalwireDomainAppConfig(),
@@ -27,27 +27,33 @@ func TestAccSignalwireDomainApp_basic(t *testing.T) {
 	})
 }
 
-func testAccCheckSignalwireDomainAppDestroy(s *terraform.State) error {
-	client := testAccProvider.Meta().(*Client)
-
-	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "signalwire_domain_app" {
-			continue
+func testAccCheckSignalwireDomainAppDestroy(n string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rs, ok := s.RootModule().Resources[n]
+		if !ok {
+			return fmt.Errorf("Not found: %s", n)
 		}
+
+		if rs.Primary.ID == "" {
+			return errors.New("No key ID is set")
+		}
+
+		client := testAccProvider.Meta().(*Client)
 
 		resp, err := client.Req("GET", os.Getenv("SIGNALWIRE_SPACE"), "domain_applications", nil)
 		if err != nil {
 			return err
 		}
 
-		endpoints := resp["data"].([]interface{})
+		apps := resp["data"].([]interface{})
 
-		if len(endpoints) > 0 {
-			return errors.New("Domain App still exists")
+		for _, app := range apps {
+			if app.(map[string]interface{})["id"] == rs.Primary.ID {
+				return fmt.Errorf("domain app exists")
+			}
 		}
 		return nil
 	}
-	return nil
 }
 
 func testAccCheckSignalwireDomainAppExists(n string) resource.TestCheckFunc {
