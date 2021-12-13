@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/bignumbers-io/terraform-provider-signalwire/tree/master.svg?style=svg)](https://circleci.com/gh/bignumbers-io/terraform-provider-signalwire/tree/master)
+[![CircleCI](https://circleci.com/gh/kitt-technology/terraform-provider-signalwire/tree/master.svg?style=svg)](https://circleci.com/gh/kitt-technology/terraform-provider-signalwire/tree/master)
 # Signalwire Terraform Provider
 
 ## Installation
