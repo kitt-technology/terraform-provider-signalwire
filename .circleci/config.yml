@@ -57,8 +57,8 @@ jobs:
       - run:
           name: Setup GPG signing key
           command: |
-            cd /tmp
-            GNUPGHOME="$PWD/releaser-gpg"
+            cd /home/circleci
+            GNUPGHOME="$PWD/.gnupg"
             export GNUPGHOME
             mkdir -p "$GNUPGHOME"
             chmod 0700 "$GNUPGHOME"
