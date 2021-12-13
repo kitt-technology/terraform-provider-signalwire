@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
@@ -121,6 +122,10 @@ func resourceSignalwireDomainAppCreate(d *schema.ResourceData, meta interface{})
 		return err
 	}
 
+	if _, ok := resp["id"]; !ok {
+		return fmt.Errorf("no id on response: %v", resp)
+	}
+
 	d.SetId(resp["id"].(string))
 
 	return resourceSignalwireDomainAppRead(d, meta)
@@ -171,7 +176,7 @@ func schemaToDomainApp(d *schema.ResourceData) map[string]interface{} {
 		"encryption": d.Get("encryption").(string),
 	}
 
-	optionalsStr := []string{"call_request_url", "call_request_method", "call_fallback_url",  "call_laml_application_id", "call_fallback_method", "call_status_callback_url", "call_status_callback_method", "call_relay_context", "caller_id", "encryption"}
+	optionalsStr := []string{"call_request_url", "call_request_method", "call_fallback_url",  "call_laml_application_id", "call_fallback_method", "call_status_callback_url", "call_status_callback_method", "call_relay_context", "encryption"}
 	for _, optional := range optionalsStr {
 		if val, ok := d.GetOkExists(optional); ok {
 			request[optional] = val.(string)

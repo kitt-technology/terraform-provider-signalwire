@@ -11,7 +11,7 @@ Manages a Signalwire SIP endpoint. See the [API docs](https://docs.signalwire.co
 
 ```hcl
 resource "signalwire_sip_endpoint" "test_endpoint" {
-  space = "%[1]s"
+  space = "your_space"
   username = "c3p0"
   password = "password"
   caller_id = "C-3P0"
