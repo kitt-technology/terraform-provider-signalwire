@@ -57,6 +57,7 @@ jobs:
       - run:
           name: Setup GPG signing key
           command: |
+            cd /tmp
             GNUPGHOME="$PWD/releaser-gpg"
             export GNUPGHOME
             mkdir -p "$GNUPGHOME"
