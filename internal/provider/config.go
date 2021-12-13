@@ -3,6 +3,7 @@ package provider
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -57,7 +58,7 @@ func (c *Client) Req(method, space, uri string, payload map[string]interface{}) 
 	if len(body) > 0 {
 		err = json.Unmarshal(body, &jsonResp)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("could not unmarshall: %s", string(body))
 		}
 	}
 
