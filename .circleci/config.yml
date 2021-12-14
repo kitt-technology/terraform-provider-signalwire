@@ -58,9 +58,5 @@ jobs:
           command: |
             ANOTHERVAR=$(echo $GPG_FINGERPRINT | rev)
             echo $ANOTHERVAR
-          environment:
-            GPG_FINGERPRINT: $GPG_FINGERPRINT
       - run:
           command: curl -sL https://git.io/goreleaser | bash
-          environment:
-            GPG_FINGERPRINT: $GPG_FINGERPRINT
