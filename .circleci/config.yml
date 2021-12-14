@@ -55,8 +55,4 @@ jobs:
     steps:
       - checkout
       - run:
-          command: |
-            ANOTHERVAR=$(echo $GPG_FINGERPRINT | rev)
-            echo $ANOTHERVAR
-      - run:
           command: curl -sL https://git.io/goreleaser | bash
