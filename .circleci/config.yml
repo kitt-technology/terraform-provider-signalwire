@@ -58,7 +58,7 @@ jobs:
           name: Setup GPG signing key
           command: |
             cd /home/circleci
-            GNUPGHOME="$PWD/.gnupg"
+            GNUPGHOME="$PWD/releaser-gpg"
             export GNUPGHOME
             mkdir -p "$GNUPGHOME"
             chmod 0700 "$GNUPGHOME"
@@ -69,3 +69,5 @@ jobs:
 
             gpg --keyid-format LONG --list-secret-keys
       - run: curl -sL https://git.io/goreleaser | bash
+          env:
+            GNUPGHOME: /home/circleci/releaser-gpg
