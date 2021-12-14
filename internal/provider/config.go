@@ -29,15 +29,18 @@ type Client struct {
 
 func (c *Client) Req(method, space, uri string, payload map[string]interface{}) (map[string]interface{}, error) {
 	var reader io.Reader
+	var jsonStr []byte
+	var err error
 	if payload != nil {
-		jsonStr, err := json.Marshal(payload)
+		jsonStr, err = json.Marshal(payload)
 		if err != nil {
 			return nil, err
 		}
 		reader = bytes.NewBuffer(jsonStr)
 	}
 
-	req, err := http.NewRequest(method, "https://"+space+".signalwire.com/api/relay/rest/"+uri, reader)
+	url := "https://"+space+".signalwire.com/api/relay/rest/"+uri
+	req, err := http.NewRequest(method, url, reader)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +61,12 @@ func (c *Client) Req(method, space, uri string, payload map[string]interface{}) 
 	if len(body) > 0 {
 		err = json.Unmarshal(body, &jsonResp)
 		if err != nil {
-			return nil, fmt.Errorf("could not unmarshall: %s", string(body))
+			return nil, fmt.Errorf(
+				`could not unmarshall: %s response from %s with payload of %s`,
+				string(body),
+				url,
+				string(jsonStr),
+			)
 		}
 	}
 
