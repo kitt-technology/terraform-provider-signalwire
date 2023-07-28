@@ -51,7 +51,7 @@ jobs:
           path: /tmp/test-results
   release:
     docker:
-      - image: circleci/golang:1.14
+      - image: circleci/golang:1.19
     steps:
       - checkout
       - run:
